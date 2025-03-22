@@ -72,7 +72,12 @@ public abstract class HashTable {
     public String toString() {
         String tempString = "TABLE:\n------------------------------------------------------------\n";
         for (int i = 0; i < tableLength; i++) {
-            tempString += table[i].toString();
+            tempString += "[" + i + "] ";
+            if (table[i] != null) {
+                tempString += table[i].toString();
+            } else {
+                tempString += "null";
+            }
             tempString += "\n";
         }
         tempString += "------------------------------------------------------------";
