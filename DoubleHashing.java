@@ -1,4 +1,4 @@
-public class DoubleHashing extends HashTable {
+public class DoubleHashing extends Hashtable {
 
     public DoubleHashing(int size) {
             super(size);

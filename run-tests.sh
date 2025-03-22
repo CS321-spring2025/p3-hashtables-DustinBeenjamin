@@ -58,4 +58,3 @@ else
 	echo "       Check the file diff-double-$load.out for differences"
 fi
 echo
-

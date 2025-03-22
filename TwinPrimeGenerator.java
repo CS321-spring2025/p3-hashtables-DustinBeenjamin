@@ -1,6 +1,6 @@
 public class TwinPrimeGenerator {
 
-    public static int getTwinPrime(int low, int high) {
+    public static int generateTwinPrime(int low, int high) {
 
         //set low to the first odd number in the provided range
         low = (low % 2 == 0) ? low + 1 : low; 

@@ -23,6 +23,10 @@ public class HashObject {
         probeCount++;
     }
 
+    public int getFrequencyCount(){
+        return frequencyCount;
+    }
+
     public void increaseFrequencyCount(){
         frequencyCount++;
     }
@@ -32,7 +36,8 @@ public class HashObject {
     }
 
     public String toString(){
-        return "Key:\t" + key + "\t\tFreq:\t" + frequencyCount + "\t\tProbes:\t" + probeCount;
+        return "" + key + " " + frequencyCount + " " + probeCount;
+        //return "Key:\t" + key + "\t\tFreq:\t" + frequencyCount + "\t\tProbes:\t" + probeCount;
         // return "" + key;
     }
 

@@ -1,4 +1,4 @@
-public class LinearProbing extends HashTable {
+public class LinearProbing extends Hashtable {
 
     public LinearProbing(int size) {
             super(size);

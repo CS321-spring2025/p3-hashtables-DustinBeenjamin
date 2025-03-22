@@ -1,4 +1,6 @@
-public abstract class HashTable {
+import java.io.PrintWriter;
+
+public abstract class Hashtable {
     
 
     protected HashObject[] table;
@@ -6,7 +8,7 @@ public abstract class HashTable {
     protected int tableSize;             //size is the number of elements in the table
 
 
-    public HashTable(int tableLength) {
+    public Hashtable(int tableLength) {
         table = new HashObject[tableLength];
         this.tableLength = tableLength;
         this.tableSize = 0;
@@ -69,21 +71,27 @@ public abstract class HashTable {
     }
     
     //TODO FIXME
-    public String toString() {
-        String tempString = "TABLE:\n------------------------------------------------------------\n";
-        for (int i = 0; i < tableLength; i++) {
-            tempString += "[" + i + "] ";
-            if (table[i] != null) {
-                tempString += table[i].toString();
-            } else {
-                tempString += "null";
+    public String toString(int debugLevel) {
+        
+    }
+
+    public void dumpToFile(String fileName) {
+        try {
+            PrintWriter out = new PrintWriter(fileName);
+            // loop through the hash table, and print non-null entries
+            // using toString() method in the HashObject class
+            for (int i = 0; i < tableLength; i ++) {
+                if (table[i] != null) {
+                    out.println("table[" + i + "]: " + table[i]);
+                }
             }
-            tempString += "\n";
+            out.close();
+        } catch (Exception e) {
+            // not sure what to do here
         }
-        tempString += "------------------------------------------------------------";
-        return tempString;
     }
 
     public abstract int hash(HashObject o);
 
+    
 }
