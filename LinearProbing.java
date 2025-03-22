@@ -11,6 +11,4 @@ public class LinearProbing extends HashTable {
         return positiveMod(baseHash + o.getProbeCount(), tableLength);
     }
 
-
-
 }

@@ -32,7 +32,7 @@ public class HashObject {
     }
 
     public String toString(){
-        return "" + key + " " + frequencyCount + " " + probeCount;
+        return "Key:\t" + key + "\t\tFreq:\t" + frequencyCount + "\t\tProbes:\t" + probeCount;
     }
 
 
