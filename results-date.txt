@@ -1,0 +1,120 @@
+
+--------------------------------------------------------------------------------
+TEST
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Date-Objects Loadfactor: 0.50
+
+        Using Linear Probing
+HashtableExperiment: size of hash table is 47896
+        Inserted 47896 elements, of which 0 were duplicates
+        Avg. no. of probes = 1.28
+
+        Using Double Hashing
+HashtableExperiment: size of hash table is 47896
+        Inserted 47897 elements, of which 0 were duplicates
+        Avg. no. of probes = 1.41
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TEST
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Date-Objects Loadfactor: 0.60
+
+        Using Linear Probing
+HashtableExperiment: size of hash table is 57475
+        Inserted 57475 elements, of which 0 were duplicates
+        Avg. no. of probes = 1.44
+
+        Using Double Hashing
+HashtableExperiment: size of hash table is 57475
+        Inserted 57475 elements, of which 0 were duplicates
+        Avg. no. of probes = 1.66
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TEST
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Date-Objects Loadfactor: 0.70
+
+        Using Linear Probing
+HashtableExperiment: size of hash table is 67054
+        Inserted 67054 elements, of which 0 were duplicates
+        Avg. no. of probes = 1.60
+
+        Using Double Hashing
+HashtableExperiment: size of hash table is 67054
+        Inserted 67054 elements, of which 0 were duplicates
+        Avg. no. of probes = 2.08
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TEST
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Date-Objects Loadfactor: 0.80
+
+        Using Linear Probing
+HashtableExperiment: size of hash table is 76633
+        Inserted 76633 elements, of which 0 were duplicates
+        Avg. no. of probes = 1.82
+
+        Using Double Hashing
+HashtableExperiment: size of hash table is 76633
+        Inserted 76633 elements, of which 0 were duplicates
+        Avg. no. of probes = 2.41
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TEST
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Date-Objects Loadfactor: 0.90
+
+        Using Linear Probing
+HashtableExperiment: size of hash table is 86212
+        Inserted 86212 elements, of which 0 were duplicates
+        Avg. no. of probes = 2.18
+
+        Using Double Hashing
+HashtableExperiment: size of hash table is 86212
+        Inserted 86212 elements, of which 0 were duplicates
+        Avg. no. of probes = 3.17
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TEST
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Date-Objects Loadfactor: 0.95
+
+        Using Linear Probing
+HashtableExperiment: size of hash table is 91002
+        Inserted 91002 elements, of which 0 were duplicates
+        Avg. no. of probes = 2.70
+
+        Using Double Hashing
+HashtableExperiment: size of hash table is 91002
+        Inserted 91002 elements, of which 0 were duplicates
+        Avg. no. of probes = 3.75
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+TEST
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Date-Objects Loadfactor: 0.99
+
+        Using Linear Probing
+HashtableExperiment: size of hash table is 94834
+        Inserted 94834 elements, of which 0 were duplicates
+        Avg. no. of probes = 5.41
+
+        Using Double Hashing
+HashtableExperiment: size of hash table is 94834
+        Inserted 94835 elements, of which 0 were duplicates
+        Avg. no. of probes = 5.39
+
+--------------------------------------------------------------------------------
+

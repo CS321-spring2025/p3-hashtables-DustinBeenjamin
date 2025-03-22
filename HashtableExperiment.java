@@ -1,11 +1,17 @@
 import java.io.File;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
 public class HashtableExperiment {
 
+    private boolean seedFlag = true;
+
+
     private int seed = 42;
+
 
     private int dataSource;
     private float loadFactor;
@@ -13,8 +19,16 @@ public class HashtableExperiment {
 
     private int numDataSourceOptions = 3;
     private int numDebugOptions = 3;
+    private int getDataCalls = 0;
 
-    private Object[] data;
+    private ArrayList<Object> data;
+    private Random random; 
+    private long currentTime = 0;
+    private String localPath = "word-list.txt";
+    private File fileObj;
+    private Scanner scanner;
+    private String dataSourceString;
+
 
     private void processArguments(String[] args){
         
@@ -63,78 +77,122 @@ public class HashtableExperiment {
         //Verify that the debug level integer is a valid option
         if (((debugLevel / (numDebugOptions)) != 0) || (debugLevel < 0)) { close("Error: Debug level " + debugLevel + " is invalid.");}
 
+        //Set the dataSourceString
+        switch (dataSource) {
+            case 1:
+                dataSourceString = "Random-Integers";
+                break;
+            case 2:
+                dataSourceString = "Date-Objects";
+                break;
+            case 3:
+                dataSourceString = "Word-List";
+                break;
+        }
         
     }
 
-    private void getData(int tableSize) {
-        data = new Object[tableSize];
+    private void getData(int tableLength) {
+        int numElementsToAdd;
+        getDataCalls++;
+
+        if (data == null) {
+            data =  new ArrayList<Object>(tableLength);
+            numElementsToAdd = tableLength;
+        } else {
+            numElementsToAdd = (int) Math.pow(2, getDataCalls - 2) * tableLength;
+        }
+
+
         switch (dataSource) {
             case 1:
-                generateRandomInts(tableSize);
+                generateRandomInts(numElementsToAdd);
                 break;
             case 2:
-                generateRandomFloats(tableSize);
+                generateRandomFloats(numElementsToAdd);
                 break;
             case 3: 
-                proccessStringData(tableSize);
+                generateStrings(numElementsToAdd);
                 break;
         }
     }
 
-    private void generateRandomInts(int num){
-        Random random = new Random(seed);
-        for (int i = 0; i < num; i++) {
-            data[i] = random.nextInt();
+    private void generateRandomInts(int numElementsToAdd){
+        if (random == null) { random = (seedFlag) ? new Random(seed) : new Random(); }
+
+        for (int i = 0; i < numElementsToAdd; i++) {
+            data.add(random.nextInt());
         }
     }
 
-    private void generateRandomFloats(int num){
-        long current = new Date().getTime();
-        for (int i = 0; i < num; i++) {
-            data[i] = new Date(current);
-            current += 1000;
+    private void generateRandomFloats(int numElementsToAdd){
+        if (currentTime == 0) { currentTime = new Date().getTime(); }
+
+        for (int i = 0; i < numElementsToAdd; i++) {
+            data.add(new Date(currentTime));
+            currentTime += 1000;
         }
     }
 
-    private void proccessStringData(int num){
-        String localPath = "word-list.txt";
-        File fileObj = new File(localPath);
-        try {
-            Scanner scanner = new Scanner(fileObj);
-            for (int i = 0; i < num; i++) {
-                data[i] = scanner.nextLine().strip();
-            }
-            scanner.close();
-        } catch (Exception e) {
-            close("Scanner unable to open " + localPath);
-        }
-    }
-
-    private void insertData(Hashtable table, int length){
-        //TODO... THIS SHOULD ONLY INSERT TILL THE LOAD FACTOR IS MET
-        for (int i = 0; i < length; i++) {
-            if (!(table.insert(table))) {
-                close("Error: Could not insert data into table.");
+    private void generateStrings(int numElementsToAdd){
+        if (fileObj == null) {
+            fileObj = new File(localPath);
+            try {
+                scanner = new Scanner(fileObj);
+            } catch (Exception e) {
+                close("Scanner unable to open " + localPath);
             }
         }
+            
+        for (int i = 0; i < numElementsToAdd; i++) {
+            if (scanner.hasNext()) {
+                data.add(scanner.nextLine().strip());
+            }
+        }
+}
+
+    private int insertData(Hashtable table, int tableLength, int startIndex){
+        int targetNumElements = (int) Math.ceil(loadFactor * tableLength);
+        int i = startIndex;
+
+        while ((table.getSize() < targetNumElements) && (i < data.size())) {
+            table.insert(data.get(i));
+            i++;
+        }
+
+        if (table.getSize() < targetNumElements) {
+            getData(tableLength);
+            return insertData(table, tableLength, i);
+        }
+
+        return i;
     }
 
-    private void printDebugMessage(int tableLength, LinearProbing linearTable, DoubleHashing doubleTable){
+    private void printDebugMessage(int tableLength, LinearProbing linearTable, DoubleHashing doubleTable, int linearInsertions, int doubleInsertions){
+        DecimalFormat formatter = new DecimalFormat("#0.00");
         System.out.println("HashtableExperiment: Found a twin prime table capacity: " + tableLength);
-        System.out.println("HashtableExperiment: Input: Word-List Loadfactor: 0.50");
+        System.out.println("HashtableExperiment: Input: " + dataSourceString +" Loadfactor: " + formatter.format(loadFactor) + "\n");
 
         switch (debugLevel) {
             case 0:
-                
+                System.out.println(linearTable.probeSummary(linearInsertions));
+                System.out.println(doubleTable.probeSummary(doubleInsertions));
                 break;
             case 1:
+                System.out.println(linearTable.probeSummary(linearInsertions) + "HashtableExperiment: Saved dump of hash table\n");
+                System.out.println(doubleTable.probeSummary(doubleInsertions) + "HashtableExperiment: Saved dump of hash table\n");
+                linearTable.dumpToFile("TestDump.txt");
                 break;
-            case 2;
+            case 2:
+                System.out.println("FIXME");
                 break;
         
         }
     }
     
+    private void closeScanner() {
+        scanner.close();
+    }
 
     public void HashtableExperiment(){
         //Do nothing
@@ -145,19 +203,20 @@ public class HashtableExperiment {
         HashtableExperiment experiment = new HashtableExperiment();
         int tableLength = TwinPrimeGenerator.generateTwinPrime(95500, 96000);
         
+        System.out.println("TEST");
         
         LinearProbing linearTable = new LinearProbing(tableLength);
         DoubleHashing doubleTable = new DoubleHashing(tableLength);
         
+        // String[] tempArgs = {"3", "0.6"};
+        // experiment.processArguments(tempArgs);
         experiment.processArguments(args);
+
         experiment.getData(tableLength);
+        int linearInsertions = experiment.insertData(linearTable, tableLength, 0);
+        int doubleInsertions = experiment.insertData(doubleTable, tableLength, 0);
 
-        experiment.insertData(linearTable, tableLength);
-        experiment.insertData(doubleTable, tableLength);
-        experiment.printDebugMessage(tableLength);
-
-
-
+        experiment.printDebugMessage(tableLength, linearTable, doubleTable, linearInsertions, doubleInsertions);
 
 
 
@@ -175,7 +234,7 @@ public class HashtableExperiment {
 
 
 
-
+    
 
 
     private static void printCorrectFormat(){
@@ -186,7 +245,7 @@ public class HashtableExperiment {
 
         System.out.println("       <loadFactor>: The ratio of objects to table size, denoted by alpha = n/m");
 
-        System.out.println("       <debugLevel>: 0 ==> random numbers");
+        System.out.println("       <debugLevel>: 0 ==> print summary of experiment");
         System.out.println("                     1 ==> save the two hash tables to a file at the end");
         System.out.println("                     2 ==> print debugging output for each insert");
     }

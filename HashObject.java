@@ -7,7 +7,7 @@ public class HashObject {
     public HashObject(Object key){
         this.key = key;
         this.frequencyCount = 1;
-        this.probeCount = -1;
+        this.probeCount = 0;
     }
 
 

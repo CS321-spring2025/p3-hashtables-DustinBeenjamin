@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 
 public abstract class Hashtable {
     
@@ -6,12 +7,17 @@ public abstract class Hashtable {
     protected HashObject[] table;
     protected int tableLength;           //length is the number of elements the table can hold
     protected int tableSize;             //size is the number of elements in the table
+    protected String hashingType;
 
 
     public Hashtable(int tableLength) {
         table = new HashObject[tableLength];
         this.tableLength = tableLength;
         this.tableSize = 0;
+    }
+
+    public int getSize(){
+        return tableSize;
     }
 
     public boolean insert(Object key) {
@@ -25,6 +31,7 @@ public abstract class Hashtable {
             if (table[targetIndex] == null) {
                 //The table is empty at targer index, insert the HashObject at target index
                 table[targetIndex] = o;
+                tableSize++;
                 return true;
             } else if (table[targetIndex].equals(o)) {
                 //The target index already has the provided data, increase the frequency count on the tabled HashObject
@@ -34,9 +41,10 @@ public abstract class Hashtable {
             }
         }
 
-        //It was not possible to add the data to the table, return false
+        //It was not possible to add the data to the table or increase frequency, return false
         return false;
-    }   
+    }
+
 
     public int search(Object key) {
         int targetIndex;
@@ -70,9 +78,34 @@ public abstract class Hashtable {
         return quotient;
     }
     
-    //TODO FIXME
-    public String toString(int debugLevel) {
-        
+    public String probeSummary(int insertions){
+        DecimalFormat formatter = new DecimalFormat("###.00");
+        String returnString = "";
+        double temp = (0.0 + countProbes()) / tableSize;
+        String averageProbes = formatter.format(temp);
+
+        returnString += "        Using " + hashingType + "\n";
+        returnString += "HashtableExperiment: size of hash table is " + tableSize + "\n";
+        returnString += "        Inserted " + insertions + " elements, of which " + countDuplicates() + " were duplicates\n";
+            returnString += "        Avg. no. of probes = " + averageProbes + "\n";
+
+        return returnString;
+    }
+
+    private int countDuplicates() {
+        int runningCount = 0;
+        for (int i = 0; i < tableLength; i++) {
+            runningCount += (table[i] != null) ? (table[i].getFrequencyCount() - 1) : 0;
+        }
+        return runningCount;
+    }
+
+    private int countProbes() {
+        int runningCount = 0;
+        for (int i = 0; i < tableLength; i++) {
+            runningCount += (table[i] != null) ? (table[i].getProbeCount()) : 0;
+        }
+        return runningCount;
     }
 
     public void dumpToFile(String fileName) {
