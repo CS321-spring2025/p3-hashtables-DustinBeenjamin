@@ -1,5 +1,20 @@
+/**
+ * A class for generating twin primes in a given range.
+ * 
+ * @author Benjamin Dustin
+ */
+
+
+
 public class TwinPrimeGenerator {
 
+    /**
+     * Static method for generating twin primes in an inclusive range.
+     * @param low The inclusive low value of the desired range
+     * @param high The inclusive high value of the desired range
+     * @return If a set of twin primes is found in the provided range, function returns the higher of the two primes/
+     * Otherwise, -1 is returned, indicating there is no twin prime in the provided range.
+     */
     public static int generateTwinPrime(int low, int high) {
 
         //set low to the first odd number in the provided range
@@ -23,25 +38,33 @@ public class TwinPrimeGenerator {
 
     }
 
+    /**
+     * Static method that supports generateTwinPrime(). Tests wether or not a number is prime.
+     * @param number The number that needs to be tested
+     * @return True if the number is prime. False otherwise.
+     */
     public static boolean testForPrime(int number) {
 
         //Useful knowledge for testing... There are 78,948 primes between 0 and 1,000,000
         
         switch (number) {
             case 0:
+                //0 is not prime
                 return false;
 
             case 1:
+                //1 is not prime
                 return false;
 
             case 2:
+                //2 is prime. 
                 return true;
         
             default:
                 break;
         }
 
-        // If a number is even
+        // If a number is even, but not 2. This is tested separeately because it cuts the iteration of the following logic in half
         if (number % 2 == 0) {
             // It is not prime
             return false;
