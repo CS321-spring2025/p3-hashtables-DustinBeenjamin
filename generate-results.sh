@@ -53,4 +53,3 @@ do
 	header "results-word-list.txt"
 	echo >> results-word-list.txt
 done
-

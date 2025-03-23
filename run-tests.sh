@@ -1,8 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "Hello"
-
-header (){
+function header () {
 	output=$1
 	for i in {1..80} 
 	do

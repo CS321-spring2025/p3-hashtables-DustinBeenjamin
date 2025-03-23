@@ -9,9 +9,7 @@ public class HashtableExperiment {
 
     private boolean seedFlag = true;
 
-
     private int seed = 42;
-
 
     private int dataSource;
     private float loadFactor;
@@ -155,6 +153,10 @@ public class HashtableExperiment {
         int targetNumElements = (int) Math.ceil(loadFactor * tableLength);
         int i = startIndex;
 
+        if (data == null) {
+            getData(tableLength);
+        }
+
         while ((table.getSize() < targetNumElements) && (i < data.size())) {
             table.insert(data.get(i));
             i++;
@@ -181,17 +183,15 @@ public class HashtableExperiment {
             case 1:
                 System.out.println(linearTable.probeSummary(linearInsertions) + "HashtableExperiment: Saved dump of hash table\n");
                 System.out.println(doubleTable.probeSummary(doubleInsertions) + "HashtableExperiment: Saved dump of hash table\n");
-                linearTable.dumpToFile("TestDump.txt");
+                linearTable.dumpToFile("linear-dump.txt");
+                doubleTable.dumpToFile("double-dump.txt");
+
                 break;
             case 2:
                 System.out.println("FIXME");
                 break;
         
         }
-    }
-    
-    private void closeScanner() {
-        scanner.close();
     }
 
     public void HashtableExperiment(){
@@ -203,39 +203,19 @@ public class HashtableExperiment {
         HashtableExperiment experiment = new HashtableExperiment();
         int tableLength = TwinPrimeGenerator.generateTwinPrime(95500, 96000);
         
-        System.out.println("TEST");
-        
         LinearProbing linearTable = new LinearProbing(tableLength);
         DoubleHashing doubleTable = new DoubleHashing(tableLength);
         
-        // String[] tempArgs = {"3", "0.6"};
+        // String[] tempArgs = {"3", "0.5"};
         // experiment.processArguments(tempArgs);
         experiment.processArguments(args);
 
-        experiment.getData(tableLength);
-        int linearInsertions = experiment.insertData(linearTable, tableLength, 0);
         int doubleInsertions = experiment.insertData(doubleTable, tableLength, 0);
+        int linearInsertions = experiment.insertData(linearTable, tableLength, 0);
 
         experiment.printDebugMessage(tableLength, linearTable, doubleTable, linearInsertions, doubleInsertions);
 
-
-
-
-        
     }
-
-
-
-
-
-
-
-
-
-
-
-    
-
 
     private static void printCorrectFormat(){
         System.out.println("Usage: java HashtableExperiment <dataSource> <loadFactor> [<debugLevel>]");
