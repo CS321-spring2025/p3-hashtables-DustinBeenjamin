@@ -12,10 +12,25 @@ import java.text.DecimalFormat;
 public abstract class Hashtable {
     
 
+    /**
+     * An array of HashObjects
+     */
     protected HashObject[] table;
-    protected int tableLength;           //length is the number of elements the table can hold
-    protected int tableSize;             //size is the number of elements in the table
-    protected String hashingType;        //A string representation of the type of hashing done by child
+
+    /**
+     * length is the number of elements the table can hold
+     */
+    protected int tableLength;           
+
+    /**
+     * Tsize is the number of elements in the table
+     */
+    protected int tableSize;             
+
+    /**
+     * A string representation of the type of hashing done by child
+     */
+    protected String hashingType;        
 
 
     /**
