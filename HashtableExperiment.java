@@ -158,7 +158,14 @@ public class HashtableExperiment {
         }
 
         while ((table.getSize() < targetNumElements) && (i < data.size())) {
-            table.insert(data.get(i));
+            int startSize = table.getSize();
+            boolean insertionStatus = table.insert(data.get(i));
+            if (debugLevel == 2) {
+                String insertionMessage = insertionStatus ? "succesfully" : "unsuccesfully";
+                String duplicateInsertionMessage = table.getSize() > startSize ? "new data" : "duplicate";
+                String messageTail = insertionStatus ? " " + insertionMessage + " as " + duplicateInsertionMessage : insertionMessage;
+                System.out.println(table.getHashingType() + ":\tInserted " + data.get(i) + messageTail);
+            }
             i++;
         }
 
@@ -181,14 +188,14 @@ public class HashtableExperiment {
                 System.out.println(doubleTable.probeSummary(doubleInsertions));
                 break;
             case 1:
-                System.out.println(linearTable.probeSummary(linearInsertions) + "HashtableExperiment: Saved dump of hash table\n");
-                System.out.println(doubleTable.probeSummary(doubleInsertions) + "HashtableExperiment: Saved dump of hash table\n");
+                System.out.println(linearTable.probeSummary(linearInsertions) + "HashtableExperiment: Saved dump of hash table to linear-dump.txt\n");
+                System.out.println(doubleTable.probeSummary(doubleInsertions) + "HashtableExperiment: Saved dump of hash table to double-dump.txt\n");
                 linearTable.dumpToFile("linear-dump.txt");
                 doubleTable.dumpToFile("double-dump.txt");
 
                 break;
             case 2:
-                System.out.println("FIXME");
+                //DO NOTHING, THIS IS HANDLED IN insertData.
                 break;
         
         }
@@ -229,7 +236,6 @@ public class HashtableExperiment {
         System.out.println("                     1 ==> save the two hash tables to a file at the end");
         System.out.println("                     2 ==> print debugging output for each insert");
     }
- 
     
     private static void close(String message) {
         System.out.println(message);

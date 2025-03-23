@@ -45,6 +45,10 @@ public abstract class Hashtable {
         return false;
     }
 
+    public String getHashingType() {
+        return hashingType;
+    }
+
 
     public int search(Object key) {
         int targetIndex;
@@ -65,12 +69,6 @@ public abstract class Hashtable {
 
     }   
 
-    // public boolean delete(Object key) {
-    //     for(int i = 0; i < tableLength; i++) {
-    //         if (table[i].)
-    //     }
-    // }
-    
     protected int positiveMod (int dividend, int divisor) {
         int quotient = dividend % divisor;
         if (quotient < 0)
@@ -106,6 +104,16 @@ public abstract class Hashtable {
             runningCount += (table[i] != null) ? (table[i].getProbeCount()) : 0;
         }
         return runningCount;
+    }
+
+    public String dumpString(){
+        String tempString = "";
+        for (int i = 0; i < tableLength; i ++) {
+            if (table[i] != null) {
+                tempString += "table[" + i + "]: " + table[i] + "\n";
+            }
+        }
+        return tempString;
     }
 
     public void dumpToFile(String fileName) {
